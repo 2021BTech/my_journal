@@ -22,8 +22,10 @@ let posts = [];
 
 // home route
 app.get("/", function (req, res) {
-  res.render("home", { startingContent: homeStartingContent });
-  console.log(posts);
+  res.render("home", {
+    startingContent: homeStartingContent,
+    posts: posts,
+  });
 });
 // about route
 app.get("/about", function (req, res) {
@@ -46,6 +48,19 @@ app.post("/compose", function (req, res) {
   };
   posts.push(post);
   res.redirect("/");
+});
+
+app.get("/posts/:postName", function (req, res) {
+  const titleRequested = req.params.postName;
+  posts.forEach(function (post) {
+    const storedTitle = post.title;
+
+    if (storedTitle === titleRequested) {
+      console.log("Match Found!");
+    } else {
+      console.log("Match Not Found!");
+    }
+  });
 });
 
 app.listen(5000, function () {
